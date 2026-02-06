@@ -1,7 +1,7 @@
-import { AppView } from "../App";
-import { useSeriesDashboard } from "../hooks/useSeriesDashboard";
+import { AppView } from "./App";
+import { useSeriesDashboard } from "./hooks/useSeriesDashboard";
 
-export default function SeriesDashboardPage() {
+export default function AppContainer() {
   const vm = useSeriesDashboard();
 
   return (
