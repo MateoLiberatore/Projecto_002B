@@ -1,22 +1,24 @@
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Dependencias mínimas para instalar Poetry y compilar wheels si hiciera falta
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Poetry
 RUN pip install --no-cache-dir poetry
 
-# Evitar crear venv dentro del contenedor
-RUN poetry config virtualenvs.create false
-
-# Copiamos solo metadata primero para aprovechar cache
+# Copiamos metadata primero (mejor cache)
 COPY pyproject.toml poetry.lock* /app/
 
-# Instalar deps (sin dev en prod)
-RUN poetry install --only main --no-interaction --no-ansi
+# Instalación sin virtualenv dentro del container
+RUN poetry config virtualenvs.create false \
+  && poetry install --no-interaction --no-ansi
 
-# Copiar código
-COPY app /app/app
+# Copiamos el código
+COPY . /app
 
 EXPOSE 8000
 
+# Ajustá app.main:app si tu entrypoint es otro
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

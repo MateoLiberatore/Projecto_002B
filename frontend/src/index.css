@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
 
 @layer base {
   :root {
@@ -55,8 +54,8 @@
 
   body {
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: Arial, Helvetica, sans-serif;
   }
 }
