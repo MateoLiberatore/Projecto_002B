@@ -1,28 +1,18 @@
-"use client";
-
-import type { Serie } from "@/lib/series-types";
+import type { SeriesOut } from "../types";
 
 interface SeriesListProps {
-  series: Serie[];
+  series: SeriesOut[];
   selectedId: string | null;
-  onSelect: (id: string) => void;
+  onSelect: (id: string) => void | Promise<void>;
 }
 
-export default function SeriesList({
-  series,
-  selectedId,
-  onSelect,
-}: SeriesListProps) {
+export default function SeriesList({ series, selectedId, onSelect }: SeriesListProps) {
   return (
     <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-      <h2 className="mb-4 text-lg font-semibold text-card-foreground">
-        Series guardadas
-      </h2>
+      <h2 className="mb-4 text-lg font-semibold text-card-foreground">Series guardadas</h2>
 
       {series.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
-          Aún no hay series guardadas. Crea una en el formulario.
-        </p>
+        <p className="text-sm text-muted-foreground">Aún no hay series guardadas.</p>
       ) : (
         <ul className="flex flex-col gap-3" role="list">
           {series.map((serie) => {
@@ -30,28 +20,19 @@ export default function SeriesList({
             return (
               <li
                 key={serie.id}
-                className={`flex items-start justify-between gap-3 rounded-lg border p-3 transition-colors ${
-                  isSelected
-                    ? "border-primary/40 bg-primary/5"
-                    : "border-border bg-background"
-                }`}
+                className="flex items-center justify-between gap-3 rounded-lg border border-border p-3"
               >
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-card-foreground">
-                    {serie.title}
-                  </p>
-                  <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                    [{serie.numbers.join(", ")}]
-                  </p>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-card-foreground">{serie.title}</p>
+                  <p className="truncate text-xs text-muted-foreground">{serie.numbers.join(", ")}</p>
                 </div>
+
                 <button
-                  type="button"
                   onClick={() => onSelect(serie.id)}
-                  disabled={isSelected}
-                  className={`shrink-0 rounded-md px-3 py-1.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${
+                  className={`h-9 rounded-md px-3 text-sm font-medium ${
                     isSelected
-                      ? "cursor-default bg-primary/10 text-primary"
-                      : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                      ? "bg-primary text-primary-foreground"
+                      : "border border-border bg-background text-foreground"
                   }`}
                 >
                   {isSelected ? "Seleccionada" : "Seleccionar"}
