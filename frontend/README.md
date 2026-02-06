@@ -30,7 +30,7 @@ El sistema permite almacenar series numéricas, listarlas y calcular métricas m
 ---
 
 ## 📁 Estructura del proyecto
-
+```
 /
 ├── backend/
 │ ├── app/
@@ -60,7 +60,7 @@ El sistema permite almacenar series numéricas, listarlas y calcular métricas m
 │
 ├── docker-compose.yml
 └── README.md
-
+```
 
 ---
 
@@ -94,7 +94,7 @@ http://localhost:8000
 mongodb://localhost:27017
 
 ## 🔌 Variables de entorno
-#Backend
+# Backend
 Definidas en docker-compose.yml:
 MONGO_URI=mongodb://mongo:27017
 MONGO_DB=series_db
