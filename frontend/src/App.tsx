@@ -1,89 +1,36 @@
-import { useEffect, useMemo, useState } from "react";
 import SeriesForm from "./components/SeriesForm";
 import SeriesList from "./components/SeriesList";
 import SeriesAnalysis from "./components/SeriesAnalysis";
 import type { SeriesAnalysis as Analysis, SeriesOut } from "./types";
-import { analyzeSeries, createSeries, listSeries } from "./lib/api";
-import { parseNumbers } from "./lib/parse";
 
-export default function App() {
-  const [series, setSeries] = useState<SeriesOut[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [analysis, setAnalysis] = useState<Analysis | null>(null);
+type Props = {
+  series: SeriesOut[];
+  selectedId: string | null;
+  selectedTitle: string | null;
+  analysis: Analysis | null;
 
-  const [loadingList, setLoadingList] = useState(false);
-  const [loadingAnalysis, setLoadingAnalysis] = useState(false);
-  const [saving, setSaving] = useState(false);
+  loadingList: boolean;
+  loadingAnalysis: boolean;
+  saving: boolean;
 
-  const [error, setError] = useState<string | null>(null);
+  error: string | null;
 
-  const selected = useMemo(() => series.find((s) => s.id === selectedId) || null, [series, selectedId]);
+  onSave: (payload: { title: string; numbersText: string }) => void | Promise<void>;
+  onSelect: (id: string) => void | Promise<void>;
+};
 
-  async function refresh() {
-    setLoadingList(true);
-    setError(null);
-    try {
-      const items = await listSeries();
-      setSeries(items);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "No se pudo listar series.");
-      setSeries([]);
-    } finally {
-      setLoadingList(false);
-    }
-  }
-
-  async function runAnalysis(id: string) {
-    setLoadingAnalysis(true);
-    setError(null);
-    setAnalysis(null);
-    try {
-      const res = await analyzeSeries(id);
-      setAnalysis(res);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "No se pudo analizar.");
-    } finally {
-      setLoadingAnalysis(false);
-    }
-  }
-
-  useEffect(() => {
-    refresh();
-  }, []);
-
-  async function handleSave(payload: { title: string; numbersText: string }) {
-    setError(null);
-
-    const title = payload.title.trim();
-    if (!title) {
-      setError("El título es obligatorio.");
-      return;
-    }
-
-    const parsed = parseNumbers(payload.numbersText);
-    if (!parsed.ok) {
-      setError(parsed.error);
-      return;
-    }
-
-    setSaving(true);
-    try {
-      const created = await createSeries({ title, numbers: parsed.value });
-      await refresh();
-      setSelectedId(created.id);
-      await runAnalysis(created.id);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "No se pudo guardar.");
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function handleSelect(id: string) {
-    setSelectedId(id);
-    await runAnalysis(id);
-  }
-
+export function AppView({
+  series,
+  selectedId,
+  selectedTitle,
+  analysis,
+  loadingList,
+  loadingAnalysis,
+  saving,
+  error,
+  onSave,
+  onSelect,
+}: Props) {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-6xl p-6">
@@ -96,14 +43,19 @@ export default function App() {
         ) : null}
 
         <div className="grid gap-4 md:grid-cols-3">
-          <SeriesForm onSave={handleSave} disabled={saving} />
+          <SeriesForm onSave={onSave} disabled={saving} />
+
           <div>
             {loadingList ? <p className="mb-3 text-sm text-muted-foreground">Cargando...</p> : null}
-            <SeriesList series={series} selectedId={selectedId} onSelect={handleSelect} />
+            <SeriesList series={series} selectedId={selectedId} onSelect={onSelect} />
           </div>
-          <SeriesAnalysis result={analysis} serieTitle={selected?.title ?? null} loading={loadingAnalysis} />
+
+          <SeriesAnalysis result={analysis} serieTitle={selectedTitle} loading={loadingAnalysis} />
         </div>
       </div>
     </div>
   );
 }
+
+// default export  
+export default AppView;
