@@ -1,73 +1,193 @@
-# React + TypeScript + Vite
+### 📊 Analizador de Series Numéricas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyecto técnico Full Stack para administrar y analizar conjuntos de números enteros.
 
-Currently, two official plugins are available:
+El sistema permite almacenar series numéricas, listarlas y calcular métricas matemáticas avanzadas sobre cada una, utilizando un backend en Python (FastAPI), una base de datos MongoDB y un frontend en React (generado con v0.dev).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧩 Tecnologías utilizadas
+# Backend
 
-## React Compiler
+# Python 3.11
+FastAPI
+Poetry (gestión de dependencias)
+MongoDB (driver oficial)
+Pytest (tests)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Frontend
+React
+TypeScript
+Vite
+Tailwind CSS v4
+UI basada en v0.dev / shadcn-style components
 
-## Expanding the ESLint configuration
+# Infraestructura
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Docker
+Docker Compose
+MongoDB (imagen oficial)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
+```
+📁 Estructura del proyecto
+/
+├── backend/
+│   ├── app/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── models/
+│   │   ├── middlewares/
+│   │   └── main.py
+│   ├── tests/
+│   ├── pyproject.toml
+│   ├── poetry.lock
+│   └── Dockerfile
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── lib/
+│   │   ├── AppContainer.tsx
+│   │   └── main.tsx
+│   ├── index.html
+│   ├── tailwind.config.ts
+│   ├── postcss.config.mjs
+│   ├── Dockerfile
+│   └── package.json
+│
+├── docker-compose.yml
+└── README.md
+```
+### 🚀 Levantar el proyecto con Docker
+# Requisitos previos
+
+Docker
+Docker Compose
+
+# Pasos
+Desde la raíz del repositorio:
+docker compose up --build
+
+# Esto levanta automáticamente:
+MongoDB
+Backend (FastAPI)
+Frontend (React + Vite)
+
+## 🌐 Accesos
+
+# Frontend:
+👉 http://localhost:5173
+
+# Backend (API):
+👉 http://localhost:8000
+
+# MongoDB (Compass):
+👉 mongodb://localhost:27017
+
+# 🔌 Variables de entorno
+Backend
+```
+Definidas en docker-compose.yml:
+MONGO_URI=mongodb://mongo:27017
+MONGO_DB=series_db
+```
+Frontend
+```
+Inyectada en build:
+VITE_API_URL=http://localhost:8000
+```
+## 📡 Endpoints del Backend
+# Crear una serie
+```
+POST /series
+
+{
+  "title": "Serie prueba",
+  "numbers": [12, 15, 21, 30]
+}
+
+
+Respuesta:
+
+{
+  "id": "69863f275a2a5087a0f4d179",
+  "title": "Serie prueba",
+  "numbers": [12, 15, 21, 30]
+}
+```
+# 📄 Listar series
+```
+GET /series
+
+Respuesta:
+
+[
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+    "id": "69863f275a2a5087a0f4d179",
+    "title": "Serie prueba",
+    "numbers": [12, 15, 21, 30]
+  }
+]
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+# 📐 Analizar una serie
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+GET /series/{id}/analyze
 ```
+Respuesta:
+
+{
+  "id": "69863f275a2a5087a0f4d179",
+  "title": "Serie prueba",
+  "numbers": [12, 15, 21, 30],
+  "gcd_all": 3,
+  "mean": 19.5,
+  "std_dev": 6.873864,
+  "primes": []
+}
+```
+## 🧪 Ejemplos de prueba (PowerShell)
+Invoke-RestMethod `
+  -Method POST `
+  -Uri http://127.0.0.1:8000/series `
+  -ContentType "application/json" `
+  -Body '{"title":"Serie 1","numbers":[12,15,21,30]}'
+
+Invoke-RestMethod http://127.0.0.1:8000/series
+
+Invoke-RestMethod http://127.0.0.1:8000/series/{id}/analyze
+
+# 🧠 Decisiones de diseño
+
+No se utilizan try/except para control de flujo:
+todas las validaciones se realizan mediante condiciones explícitas y respuestas HTTP claras.
+
+Separación estricta de responsabilidades:
+routes
+controllers
+services
+models
+
+El frontend utiliza componentes “tontos” y hooks para la lógica de negocio.
+MongoDB se utiliza únicamente como persistencia, sin lógica embebida.
+
+# 🧪 Tests
+
+El backend incluye tests con pytest que cubren:
+
+creación de series
+validaciones de entrada
+análisis matemático
+casos límite (series vacías, números no válidos)
+
+# 📝 Flujo de trabajo Git
+
+El proyecto está desarrollado con commits progresivos y descriptivos, siguiendo buenas prácticas:
+
+inicialización del backend
+conexión a MongoDB
+implementación de endpoints
+tests
+frontend
+estilos
+dockerización
