@@ -1,5 +1,15 @@
 from math import sqrt
 
+"""
+Primalidad eficiente para enteros chicos/medianos:
+descartás <= 1
+chequeo de pares
+prueba divisores impares hasta sqrt(n)
+
+No se prueba por todos los números:
+límite sqrt(n)
+salteo de pares
+"""
 
 def is_prime(n: int) -> bool:
     if n <= 1:

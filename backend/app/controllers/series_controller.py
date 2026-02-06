@@ -2,6 +2,11 @@ from fastapi import HTTPException
 from app.services.series_service import create_series, list_series, get_series_by_id
 from bson import ObjectId
 
+"""
+Validaciones extras ademas de pydantic, textos vacios 
+si por alguna razón "saved" no existe → 500
+"""
+
 
 def create_series_controller(title: str, numbers: list[int]) -> dict:
     clean_title = title.strip()
@@ -20,7 +25,7 @@ def create_series_controller(title: str, numbers: list[int]) -> dict:
 def list_series_controller() -> list[dict]:
     return list_series()
 
-
+# separacion de errores
 def get_series_controller(series_id: str) -> dict:
     if series_id.strip() == "":
         raise HTTPException(status_code=400, detail="id cannot be blank")

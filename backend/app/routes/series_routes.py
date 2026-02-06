@@ -7,9 +7,10 @@ from app.controllers.series_controller import (
 )
 from app.controllers.analysis_controller import analyze_series_controller
 
+#prefix 
 router = APIRouter(prefix="/series", tags=["series"])
 
-
+#mapper para no mezclar mongo con contrato. (mongo usa "_id" y la api "id")
 def _series_out(doc: dict) -> dict:
     return {"id": str(doc["_id"]), "title": doc["title"], "numbers": doc["numbers"]}
 

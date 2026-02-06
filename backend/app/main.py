@@ -8,6 +8,13 @@ from app.errors.handlers import (
     unhandled_exception_handler,
 )
 
+"""
+Registro de handlers
+inlusion de router
+creacion de la app
+"""
+
+
 app = FastAPI(title="Analizador de Series Numéricas")
 
 app.include_router(series_router)

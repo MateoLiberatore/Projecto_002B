@@ -1,6 +1,11 @@
 import os
 from pymongo import MongoClient
 
+"""
+Definicion de una unica conexion a mongo 
+"""
+
+
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://mongo:27017")
 MONGO_DB = os.getenv("MONGO_DB", "series_db")
 

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
-
+#Definicion de la salida esperada por el endpoint /analyze
 class SeriesAnalysisOut(BaseModel):
     id: str
     title: str
