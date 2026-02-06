@@ -84,7 +84,7 @@ Backend (FastAPI)
 Frontend (React)
 
 ## 🌐 Accesos
-#Frontend:
+# Frontend:
 http://localhost:5173
 
 # Backend (API):
@@ -95,18 +95,21 @@ mongodb://localhost:27017
 
 ## 🔌 Variables de entorno
 # Backend
+```
 Definidas en docker-compose.yml:
 MONGO_URI=mongodb://mongo:27017
 MONGO_DB=series_db
+```
 
 # Frontend
+```
 Inyectada en build:
 VITE_API_URL=http://localhost:8000
-
+```
 ### 📡 Endpoints del Backend
 
 ## POST /series
-
+```
 {
   "title": "Serie prueba",
   "numbers": [12, 15, 21, 30]
@@ -118,9 +121,11 @@ Respuesta:
   "title": "Serie prueba",
   "numbers": [12, 15, 21, 30]
 }
+```
 ## 📄 Listar series
-GET /series
 
+## GET /series
+```
 Respuesta:
 
 [
@@ -130,9 +135,10 @@ Respuesta:
     "numbers": [12, 15, 21, 30]
   }
 ]
+```
 ## 📐 Analizar una serie
 GET /series/{id}/analyze
-
+```
 Respuesta:
 
 {
@@ -144,9 +150,10 @@ Respuesta:
   "std_dev": 6.873864,
   "primes": []
 }
+```
 ### 🧪 Ejemplos de requests (PowerShell)
 Crear serie:
-
+```
 Invoke-RestMethod `
   -Method POST `
   -Uri http://127.0.0.1:8000/series `
@@ -158,3 +165,4 @@ Invoke-RestMethod http://127.0.0.1:8000/series
 Analizar serie:
 
 Invoke-RestMethod http://127.0.0.1:8000/series/{id}/analyze
+```
