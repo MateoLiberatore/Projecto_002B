@@ -1,0 +1,76 @@
+
+# General
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.temp
+*.swp
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Poetry
+.poetry/
+# poetry.lock
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# FastAPI / Uvicorn
+*.pid
+
+# Pytest
+.coverage
+htmlcov/
+
+# Node / React / Vite / Next
+node_modules/
+dist/
+build/
+.next/
+out/
+.vite/
+.cache/
+
+# Tailwind / PostCSS
+.tailwind-cache/
+
+# v0 / shadcn
+components/ui/.cache/
+
+# Docker
+docker-data/
+docker-volumes/
+*.tar
+
+# MongoDB local data (por si alguien corre local)
+data/db/
+mongo_data/
+mongo_data_local/
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+
+# Windows PowerShell
+*.ps1.user
