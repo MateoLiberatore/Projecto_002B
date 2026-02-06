@@ -83,29 +83,29 @@ MongoDB
 Backend (FastAPI)
 Frontend (React)
 
-##🌐 Accesos
+## 🌐 Accesos
 #Frontend:
 http://localhost:5173
 
-#Backend (API):
+# Backend (API):
 http://localhost:8000
 
-#MongoDB (Compass):
+# MongoDB (Compass):
 mongodb://localhost:27017
 
-##🔌 Variables de entorno
+## 🔌 Variables de entorno
 #Backend
 Definidas en docker-compose.yml:
 MONGO_URI=mongodb://mongo:27017
 MONGO_DB=series_db
 
-#Frontend
+# Frontend
 Inyectada en build:
 VITE_API_URL=http://localhost:8000
 
-###📡 Endpoints del Backend
+### 📡 Endpoints del Backend
 
-##POST /series
+## POST /series
 
 {
   "title": "Serie prueba",
@@ -130,7 +130,7 @@ Respuesta:
     "numbers": [12, 15, 21, 30]
   }
 ]
-##📐 Analizar una serie
+## 📐 Analizar una serie
 GET /series/{id}/analyze
 
 Respuesta:
@@ -144,7 +144,7 @@ Respuesta:
   "std_dev": 6.873864,
   "primes": []
 }
-###🧪 Ejemplos de requests (PowerShell)
+### 🧪 Ejemplos de requests (PowerShell)
 Crear serie:
 
 Invoke-RestMethod `
